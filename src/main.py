@@ -9,7 +9,3 @@ app.include_router(notes_router)
 @app.get('/')
 def hello():
     return "Hello world!"
-
-
-if __name__ == "__main__":
-    print("main!")
