@@ -1,6 +1,6 @@
 from api.database import get_async_session
 from api.notes.models import Note
-from api.notes.schemas import NoteCreate
+from api.notes.schemas import NoteCreate, NoteResponse
 from fastapi import APIRouter, Depends
 from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,9 +23,19 @@ async def get_specific_notes(note_type: str, session: AsyncSession = Depends(get
     return {"result": notes_dicts}
 
 
-@router.post("/")
+@router.post("/", response_model=NoteResponse)
 async def add_note(new_note: NoteCreate, session: AsyncSession = Depends(get_async_session)):
-    stmt = insert(Note).values(new_note.model_dump())
-    await session.execute(stmt)
+    # Создаем объект Note
+    note = Note(
+        content=new_note.content,
+        date=new_note.date,
+        type=new_note.type
+    )
+    
+    # Добавляем объект в сессию
+    session.add(note)
     await session.commit()
-    return {"result": "success"}
+    await session.refresh(note)  # Обновляем объект, чтобы получить id
+
+    # Преобразуем ORM объект в Pydantic-схему для возврата
+    return NoteResponse.from_orm(note)
