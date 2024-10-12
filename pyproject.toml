@@ -1,0 +1,40 @@
+[project]
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 120
+show-fixes = true   
+src = ["src"]
+
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+lint.select = [
+"E", # pycodestyle (`E`)
+"F",  # Pyflakes (`F`)
+"UP" # pyupgrade
+]
+
+lint.ignore = []
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
