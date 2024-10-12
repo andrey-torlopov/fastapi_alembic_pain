@@ -23,3 +23,12 @@ uvicorn api.main:app --reload
 alembic revision --autogenerate -m "create tables"
 alembic upgrade head
 ```
+
+# .env файлик
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASS=postgres
+```
