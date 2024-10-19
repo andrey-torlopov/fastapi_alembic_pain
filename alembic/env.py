@@ -1,9 +1,10 @@
 from logging.config import fileConfig
 
 from alembic import context
-from api.articles.models import Article, ArticleTag, ContentItem, Tag
+from api.articles.models import Article, ArticleTag, ContentItem
 from api.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 from api.database import Base
+from api.tags.models import Tag
 from sqlalchemy import engine_from_config, pool
 
 # this is the Alembic Config object, which provides

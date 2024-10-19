@@ -17,13 +17,6 @@ class ArticleRepository:
         result = await self.session.execute(query)
         return result.scalars().all()
 
-    # async def add_article(self, article: Article) -> Article:
-    #     self.session.add(article)
-    #     await self.session.commit()
-    #     # Явно подгружаем связанные объекты
-    #     await self.session.refresh(article, ["content_items", "tags"])
-    #     return article
-
     async def get_tag_by_name(self, name: str) -> Tag:
         query = select(Tag).where(Tag.name == name)
         result = await self.session.execute(query)

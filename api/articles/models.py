@@ -2,7 +2,7 @@ from datetime import datetime
 
 from api.database import Base
 from api.tags.models import Tag
-from sqlalchemy import JSON, DateTime, ForeignKey, Integer, String
+from sqlalchemy import JSON, DateTime, ForeignKey, Integer, PrimaryKeyConstraint, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
@@ -38,6 +38,6 @@ class Article(Base):
 
 class ArticleTag(Base):
     __tablename__ = 'article_tags'
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     article_id: Mapped[int] = mapped_column(ForeignKey('articles.id'), primary_key=True)
     tag_id: Mapped[int] = mapped_column(ForeignKey('tags.id'), primary_key=True)

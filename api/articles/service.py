@@ -31,13 +31,15 @@ class ArticleService:
                 tags.append(new_tag)
 
         # Создание статьи и добавление тегов
+        content_items = [ContentItem(**item.dict()) for item in article_data.content_items]
+
         article = Article(
             title=article_data.title,
             status=article_data.status,
             user_id=article_data.user_id,
-            content_items=[ContentItem(**item.dict()) for item in article_data.content_items],
+            content_items=content_items,
             tags=tags  # Используем либо существующие, либо новые теги
         )
 
         # Добавляем статью через репозиторий
-        return await self.repository.add_article(article)
+        return await self.repository.add_article(article, tags=tags)
