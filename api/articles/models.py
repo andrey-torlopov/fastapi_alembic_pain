@@ -1,15 +1,9 @@
 from datetime import datetime
 
-from sqlalchemy import JSON, DateTime, Enum, ForeignKey, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from api.database import Base
-
-
-class Tag(Base):
-    __tablename__ = "tags"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(unique=True)
+from api.tags.models import Tag
+from sqlalchemy import JSON, DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class ContentItem(Base):
@@ -36,7 +30,9 @@ class Article(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     user_id: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    tags: Mapped[list[Tag]] = relationship("Tag", secondary="article_tags", back_populates="articles")
+    tags: Mapped[list[Tag]] = relationship(
+        "Tag", secondary="article_tags", back_populates="articles"
+    )
     content_items: Mapped[list[ContentItem]] = relationship("ContentItem", back_populates="article")
 
 
@@ -45,6 +41,3 @@ class ArticleTag(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     article_id: Mapped[int] = mapped_column(ForeignKey('articles.id'), primary_key=True)
     tag_id: Mapped[int] = mapped_column(ForeignKey('tags.id'), primary_key=True)
-
-    article: Mapped["Article"] = relationship("Article", back_populates="tags")
-    tag: Mapped["Tag"] = relationship("Tag", back_populates="articles")
